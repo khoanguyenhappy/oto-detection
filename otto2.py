@@ -8,6 +8,10 @@ from PyQt5.QtCore import QThread, pyqtSignal, Qt
 import os
 from datetime import datetime
 from main_window import Ui_MainWindow  # The generated file from .ui
+import pathlib
+from pathlib import Path
+
+pathlib.PosixPath = pathlib.WindowsPath
 
 # Disable SSL verification warnings (not recommended for production)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -76,8 +80,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.openButton.clicked.connect(self.open_file)
         self.thread = None
+        # self.model = torch.hub.load('ultralytics/yolov5','yolov5s')
         self.model = torch.hub.load('ultralytics/yolov5', 'custom',
-                                    path='yolov5/runs/train/exp18/weights/best.pt', force_reload=True)
+                                    path='yolov5/runs/train/yolov5s_results22/weights/best.pt', force_reload=True)
 
     def open_file(self):
         video_path, _ = QFileDialog.getOpenFileName(self, "Open Video")
